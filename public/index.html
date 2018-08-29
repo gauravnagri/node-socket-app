@@ -1,19 +1,27 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>
             Node Chat App
         </title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="./css/styles.css"/>
     </head>
-    <body>
-        <p>
-            Welcome to the Chat App...
-        </p>
-        <form id = "messageForm">
-            <ul id="messages"></ul>
-           <input type="text" id = "message" placeholder="Type your message here"/>
-           <input type="submit" id="btn" value="Send"/>
-        </form>
-        <input type="button" id="send-location" value="Send Location"/>
+    <body class="chat">
+        <div class = "chat__sidebar">
+           <h3>Users</h3>
+           <div id="users"></div>
+        </div>
+        <div class="chat__main">
+            <ol id="messages" class="chat__messages"></ol>
+            <div class="chat__footer">
+            <form id = "messageForm">            
+                <input type="text" id = "message" name="message" autocomplete="off" autofocus placeholder="Type your message here"/>
+                <button>Send</button>
+            </form>
+            <button id="send-location">Send location</button>
+          </div>
+        </div>     
         <script src="./socket.io/socket.io.js"></script>
         <script src ="./js/libs/jquery-3.3.1.min.js"></script>
         <script src="./js/index.js"></script>

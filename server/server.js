@@ -18,8 +18,9 @@ io.on("connection",(socket) => {
 
    socket.broadcast.emit("newMessage",generateMessage("Admin","New user joined"));
 
-   socket.on("createMessage",(data) => {
+   socket.on("createMessage",(data,callback) => {
       io.emit("newMessage",generateMessage(data.from,data.text));
+      callback();
    });
 
    socket.on("sendLocationMessage",(position)=>{

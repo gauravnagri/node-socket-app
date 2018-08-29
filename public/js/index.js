@@ -25,25 +25,32 @@ $(document).ready(function(){
 
     $("#messageForm").on("submit",function(event){
       event.preventDefault();
-
+      var messageInput = $("#message");
       socket.emit("createMessage",{
          from : "User",
-         text : $("#message").val()
+         text : messageInput.val()
+      },function(){
+         messageInput.val('');
       });
     });
 
-    $("#send-location").on("click",function(){
+    var sendLocationBtn = $("#send-location");
+     sendLocationBtn.on("click",function(){
        if(!navigator.geolocation){
           alert("Geolocation feature not supported on your browser");
           return false;
        }
 
+       sendLocationBtn.attr("disabled","disabled").text("Sending location...");
+
        navigator.geolocation.getCurrentPosition(function(position){
+         sendLocationBtn.removeAttr("disabled").text("Send location");
          socket.emit("sendLocationMessage",{
             latitude : position.coords.latitude,
             longitude : position.coords.longitude
          });
        },function(error){
+        sendLocationBtn.removeAttr("disabled").text("Send location");
            alert("Permission not granted...");
        });
     });
