@@ -5,16 +5,18 @@ $(document).ready(function(){
     });
     
     socket.on("newMessage",(data) => {
-       var li = `<li>${data.from}:${data.text}</li>`;
+        var formatTime = moment(data.createdAt).format("h:mm A");
+       var li = `<li>${data.from} ${formatTime}:${data.text}</li>`;
        $("#messages").append(li);
     });
 
     socket.on("newLocationMessage",function(data){
+       var formatTime = moment(data.createdAt).format("h:mm A");
        var li = $("<li></li>");
        var anchor = $("<a>My Location</a>");
        anchor.attr("target","_blank");
        anchor.attr("href",data.url);       
-       li.text(`${data.from}:`);
+       li.text(`${data.from} ${formatTime}:`);
        li.append(anchor)
        $("#messages").append(li);
     });
