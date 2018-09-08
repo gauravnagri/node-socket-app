@@ -1,7 +1,16 @@
 $(document).ready(function(){
     var socket = io();
     socket.on("connect",() => {
-        console.log("Connected to server");
+       var params = $.deparam(window.location.search);
+       socket.emit("join",params,(err)=>{
+         if(err){
+           window.location.href = "/";
+           alert(err);
+         }
+         else{
+           console.log("No errors");
+         }
+       });
     });
 
     function scrollToBottom(){
@@ -40,6 +49,16 @@ $(document).ready(function(){
        $("#messages").append(html);
        scrollToBottom();
     });
+
+    socket.on("updateUserList",(users) => {
+       var ol = $("<ol></ol>");
+       users.forEach(user => {
+         var li = $("<li></li>");
+         li.text(user);
+         ol.append(li);
+       });
+       $("#users").html(ol);
+    });
     
     socket.on("disconnect",()=>{
         console.log("Server disconnected...");
@@ -53,6 +72,7 @@ $(document).ready(function(){
          text : messageInput.val()
       },function(){
          messageInput.val('');
+         messageInput.focus();
       });
     });
 
